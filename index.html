@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Workout Log</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        /* =====================
+           LOGIN PAGE
+        ====================== */
+
+        #loginPage {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-box h1 {
+            text-align: center;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .login-box label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #loginMessage {
+            text-align: center;
+            color: red;
+        }
+
+
+        /* =====================
+           WORKOUT PAGE
+        ====================== */
+
+        #workoutPage {
+            display: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .workout-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        /* Summary */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+
+        .summary-card h3 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .summary-card p {
+            margin-bottom: 0;
+            color: #777;
+        }
+
+        /* History */
+
+        h2 {
+            margin-top: 35px;
+        }
+
+        .workout-card {
+            background: white;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+
+        .workout-card h3 {
+            margin-top: 0;
+        }
+
+        .workout-card p {
+            margin: 7px 0;
+        }
+
+        .delete-btn {
+            width: auto;
+            padding: 8px 14px;
+            margin-top: 10px;
+            background: #d9534f;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================
+         FIRST PAGE
+         LOGIN
+    ====================== -->
+
+    <div id="loginPage">
+
+        <div class="login-box">
+
+            <h1>🔐 Login</h1>
+
+            <p class="login-subtitle">
+                Login to access Workout Log
+            </p>
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+            >
+
+            <button
+                class="login-btn"
+                onclick="login()"
+            >
+                Login
+            </button>
+
+            <p id="loginMessage"></p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         SECOND PAGE
+         WORKOUT LOG
+    ====================== -->
+
+    <div id="workoutPage">
+
+        <div class="container">
+
+            <h1>🏋️ Workout Log</h1>
+
+            <p class="subtitle">
+                Track your daily workouts and progress
+            </p>
+
+
+            <div class="workout-form">
+
+                <label for="exercise">
+                    Exercise Name
+                </label>
+
+                <input
+                    type="text"
+                    id="exercise"
+                    placeholder="Example: Squats"
+                >
+
+
+                <label for="type">
+                    Workout Type
+                </label>
+
+                <select id="type">
+
+                    <option value="Strength">
+                        Strength
+                    </option>
+
+                    <option value="Cardio">
+                        Cardio
+                    </option>
+
+                    <option value="Yoga">
+                        Yoga
+                    </option>
+
+                    <option value="Stretching">
+                        Stretching
+                    </option>
+
+                </select>
+
+
+                <label for="duration">
+                    Duration (minutes)
+                </label>
+
+                <input
+                    type="number"
+                    id="duration"
+                    placeholder="Example: 30"
+                >
+
+
+                <label for="sets">
+                    Sets
+                </label>
+
+                <input
+                    type="number"
+                    id="sets"
+                    placeholder="Example: 3"
+                >
+
+
+                <label for="reps">
+                    Reps
+                </label>
+
+                <input
+                    type="number"
+                    id="reps"
+                    placeholder="Example: 15"
+                >
+
+
+                <button onclick="addWorkout()">
+                    + Add Workout
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary">
+
+                <div class="summary-card">
+
+                    <h3 id="totalWorkouts">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Workouts
+                    </p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3 id="totalDuration">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Minutes
+                    </p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3 id="totalSets">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Sets
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- WORKOUT HISTORY -->
+
+            <h2>
+                Workout History
+            </h2>
+
+            <div id="workoutList">
+
+                <p class="empty">
+                    No workouts added yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         JAVASCRIPT
+    ====================== -->
+
+    <script>
+
+
+        /* LOGIN */
+
+        function login() {
+
+            let username =
+                document.getElementById("username").value;
+
+            let password =
+                document.getElementById("password").value;
+
+
+            if (
+                username === "Maddy" &&
+                password === "1234"
+            ) {
+
+                document.getElementById("loginPage")
+                    .style.display = "none";
+
+                document.getElementById("workoutPage")
+                    .style.display = "block";
+
+            }
+
+            else {
+
+                document.getElementById("loginMessage")
+                    .textContent =
+                    "Invalid username or password!";
+
+            }
+
+        }
+
+
+
+        /* WORKOUT DATA */
+
+        let workouts = [];
+
+
+        /* ADD WORKOUT */
+
+        function addWorkout() {
+
+            let exercise =
+                document.getElementById("exercise").value;
+
+            let type =
+                document.getElementById("type").value;
+
+            let duration =
+                document.getElementById("duration").value;
+
+            let sets =
+                document.getElementById("sets").value;
+
+            let reps =
+                document.getElementById("reps").value;
+
+
+            if (
+                exercise === "" ||
+                duration === ""
+            ) {
+
+                alert(
+                    "Please enter Exercise Name and Duration."
+                );
+
+                return;
+            }
+
+
+            let workout = {
+
+                exercise: exercise,
+
+                type: type,
+
+                duration: Number(duration),
+
+                sets: Number(sets) || 0,
+
+                reps: Number(reps) || 0
+
+            };
+
+
+            workouts.push(workout);
+
+            displayWorkouts();
+
+            updateSummary();
+
+
+            document.getElementById("exercise")
+                .value = "";
+
+            document.getElementById("duration")
+                .value = "";
+
+            document.getElementById("sets")
+                .value = "";
+
+            document.getElementById("reps")
+                .value = "";
+
+        }
+
+
+        /* DISPLAY WORKOUTS */
+
+        function displayWorkouts() {
+
+            let workoutList =
+                document.getElementById("workoutList");
+
+            workoutList.innerHTML = "";
+
+
+            if (workouts.length === 0) {
+
+                workoutList.innerHTML = `
+                    <p class="empty">
+                        No workouts added yet.
+                    </p>
+                `;
+
+                return;
+            }
+
+
+            workouts.forEach(function(workout, index) {
+
+                workoutList.innerHTML += `
+
+                    <div class="workout-card">
+
+                        <h3>
+                            ${workout.exercise}
+                        </h3>
+
+                        <p>
+                            <strong>Type:</strong>
+                            ${workout.type}
+                        </p>
+
+                        <p>
+                            <strong>Duration:</strong>
+                            ${workout.duration}
+                            minutes
+                        </p>
+
+                        <p>
+                            <strong>Sets:</strong>
+                            ${workout.sets}
+                        </p>
+
+                        <p>
+                            <strong>Reps:</strong>
+                            ${workout.reps}
+                        </p>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteWorkout(${index})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+        /* DELETE */
+
+        function deleteWorkout(index) {
+
+            workouts.splice(index, 1);
+
+            displayWorkouts();
+
+            updateSummary();
+
+        }
+
+
+        /* SUMMARY */
+
+        function updateSummary() {
+
+            let totalWorkouts =
+                workouts.length;
+
+            let totalDuration = 0;
+
+            let totalSets = 0;
+
+
+            workouts.forEach(function(workout) {
+
+                totalDuration += workout.duration;
+
+                totalSets += workout.sets;
+
+            });
+
+
+            document.getElementById("totalWorkouts")
+                .textContent = totalWorkouts;
+
+            document.getElementById("totalDuration")
+                .textContent = totalDuration;
+
+            document.getElementById("totalSets")
+                .textContent = totalSets;
+
+        }
+
+    </script>
+
+</body>
+
+</html>
